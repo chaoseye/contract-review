@@ -1,0 +1,30 @@
+# Обратный прокси с HTTPS для профиля server (docker compose --profile server up -d).
+# SITE_ADDRESS — домен из .env; Caddy сам получит сертификат Let's Encrypt.
+# Для сервера в локальной сети без домена: SITE_ADDRESS=192.168.x.x (без https://) — тогда сертификат
+# выпустит внутренний центр Caddy, и браузеры покажут предупреждение, пока его не добавят в доверенные.
+
+{
+	# Сертификат для соединений без имени сервера (SNI): браузер не передаёт его, когда сайт открыт по IP,
+	# а Caddy в контейнере видит адрес контейнера, а не сервера, и без этой строки обрывает соединение.
+	default_sni {$SITE_ADDRESS}
+}
+
+{$SITE_ADDRESS} {
+	encode zstd gzip
+
+	# Договор до 200 МБ (предел в админке) и служебные части запроса. Больше приложение всё равно не примет.
+	request_body {
+		max_size 256MB
+	}
+
+	# Остальные заголовки безопасности (CSP, X-Frame-Options, Permissions-Policy) ставит приложение.
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "same-origin"
+		-Server
+	}
+
+	# Caddy заменяет X-Forwarded-For адресом клиента: подделать его снаружи нельзя.
+	reverse_proxy app:8000
+}

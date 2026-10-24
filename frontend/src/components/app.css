@@ -1,0 +1,227 @@
+/* Каркас: шапка и поля страницы (AppLayout). */
+
+.z-shell {
+  min-height: 100vh;
+}
+
+/* Шапка — тёмная полоса: знак текстом, разделы вкладками со светло-синей чертой у текущего. */
+.z-hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  line-height: normal;
+}
+
+.z-hdr-m {
+  height: 52px;
+  padding-inline: 16px;
+}
+
+.z-hdr-left {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  height: 100%;
+  min-width: 0;
+}
+
+.z-brand {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.01em;
+  color: var(--z-brand-accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.z-brand:hover {
+  color: var(--z-brand-accent);
+}
+
+.z-hdr-m .z-brand {
+  font-size: 16px;
+}
+
+.z-nav {
+  display: flex;
+  gap: 24px;
+  height: 100%;
+}
+
+/* Поля по бокам — для рамки фокуса; отрицательные отступы сохраняют расстояние между вкладками. */
+.z-nav-item {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 2px 6px 0;
+  margin-inline: -6px;
+  border-bottom: 2px solid transparent;
+  color: #cfcac1;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.z-nav-item:hover {
+  color: #fff;
+}
+
+.z-nav-item.is-active {
+  color: #fff;
+  border-bottom-color: var(--z-brand-accent);
+}
+
+.z-user {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  padding: 0 8px 0 4px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #edeae4;
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.z-user:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.z-hdr-m .z-user {
+  padding: 0;
+  height: 44px;
+  width: 44px;
+  justify-content: center;
+}
+
+.z-ava {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--z-brand-accent);
+  color: var(--z-chrome);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex: none;
+}
+
+.z-hdr-m .z-ava {
+  width: 38px;
+  height: 38px;
+}
+
+.z-user-caret {
+  font-size: 11px;
+  color: #cfcac1;
+}
+
+/* Чёрная рамка фокуса на тёмной шапке не видна — здесь она жёлтая. */
+.z-hdr a:focus-visible,
+.z-hdr button:focus-visible {
+  outline-color: var(--z-brand-accent) !important;
+}
+
+.z-nav-item:focus-visible {
+  outline-offset: -4px !important;
+}
+
+.z-content {
+  padding: 24px 32px 56px;
+}
+
+.z-content-m {
+  padding: 12px 16px 96px;
+}
+
+/* Заголовок страницы и строка под ним. */
+.z-page-title {
+  font-size: 26px;
+  line-height: 34px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.z-content-m .z-page-title {
+  font-size: 21px;
+  line-height: 28px;
+}
+
+.z-page-sub {
+  margin: 4px 0 0;
+  color: var(--z-text-2);
+  font-size: 15px;
+}
+
+.z-content-m .z-page-sub {
+  font-size: 14px;
+}
+
+/* Карточка — белая, с тонкой границей, без тени. */
+.z-card {
+  background: var(--z-surface);
+  border: 1px solid var(--z-border);
+  border-radius: 14px;
+}
+
+/* Ссылка-«назад» над заголовком. */
+.z-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  color: var(--z-text-2);
+  text-decoration: none;
+}
+
+.z-back:hover {
+  color: var(--z-text);
+}
+
+/* Нижняя панель действий на телефоне: главное действие всегда под пальцем. */
+.z-bottom-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: 8px;
+  padding: 10px 16px calc(12px + env(safe-area-inset-bottom));
+  background: var(--z-surface);
+  border-top: 1px solid var(--z-border);
+}
+
+.z-bottom-bar .ant-btn {
+  height: 46px;
+  font-size: 15px;
+}
+
+/* Подпись поля, подсказка под полем и разделитель — общие для всех экранов. */
+.z-label {
+  display: block;
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--z-text-2);
+}
+
+.z-hint {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--z-text-3);
+}
+
+.z-divider {
+  height: 1px;
+  background: var(--z-border);
+}

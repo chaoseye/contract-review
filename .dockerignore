@@ -1,0 +1,23 @@
+# В контекст сборки не попадают настоящие документы, секреты и локальные данные.
+.git
+DOCS
+docs
+contracts
+documentation
+.env
+.env.*
+!.env.example
+data
+backend/data
+backups
+**/*.dump
+.claude
+
+**/node_modules
+**/.venv
+**/venv
+**/__pycache__
+**/.pytest_cache
+**/.ruff_cache
+frontend/dist
+**/*.tsbuildinfo

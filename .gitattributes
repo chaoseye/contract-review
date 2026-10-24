@@ -1,0 +1,15 @@
+# В репозитории — переводы строк LF. Скрипты и Dockerfile запускаются в Linux-контейнере,
+# с CRLF они ломаются, поэтому для них LF и в рабочей копии.
+* text=auto eol=lf
+
+*.sh text eol=lf
+Dockerfile text eol=lf
+*.ps1 text eol=crlf
+
+*.png binary
+*.jpg binary
+*.pdf binary
+*.docx binary
+*.doc binary
+*.ttf binary
+*.otf binary

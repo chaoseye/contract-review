@@ -1,0 +1,1054 @@
+/* Страница проверки по шагам «Анализ → Риски → Протокол». */
+
+.z-check {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* --- шапка проверки --------------------------------------------------------------------------- */
+
+.z-check-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.z-check-head > div {
+  min-width: 0;
+}
+
+.z-check-meta {
+  margin: 4px 0 0;
+  color: var(--z-text-2);
+  overflow-wrap: anywhere;
+}
+
+/* --- шаги ------------------------------------------------------------------------------------- */
+
+.z-steps {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--z-surface);
+  border: 1px solid var(--z-border);
+  border-radius: 14px;
+  padding: 12px 14px 12px 18px;
+}
+
+.z-steps ol {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 0;
+}
+
+.z-steps li {
+  display: contents;
+}
+
+.z-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 4px 6px;
+  margin: -4px -6px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+}
+
+button.z-step {
+  cursor: pointer;
+}
+
+button.z-step:hover .z-step-label b {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.z-step-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  border: 1.5px solid var(--z-border-strong);
+  color: var(--z-text-2);
+  background: var(--z-surface);
+}
+
+.z-step.is-done .z-step-num {
+  background: var(--z-ink);
+  border-color: var(--z-ink);
+  color: #fff;
+}
+
+.z-step.is-current .z-step-num {
+  background: var(--z-marker);
+  border-color: var(--z-ink);
+  color: var(--z-ink);
+}
+
+.z-step.is-warn .z-step-num {
+  background: var(--z-warning-soft);
+  border-color: var(--z-warning);
+  color: var(--z-warning);
+}
+
+.z-step.is-error .z-step-num {
+  background: var(--z-danger-soft);
+  border-color: var(--z-danger);
+  color: var(--z-danger);
+}
+
+.z-step-label {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.z-step-label b {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.z-step.is-current .z-step-label b {
+  font-weight: 700;
+}
+
+.z-step-label span {
+  font-size: 13px;
+  color: var(--z-text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.z-step-line {
+  flex: 1;
+  height: 2px;
+  min-width: 16px;
+  background: var(--z-border);
+}
+
+.z-step-line.is-done {
+  background: var(--z-ink);
+}
+
+/* Телефон: три полосы с подписями, без кнопки — она внизу экрана. */
+.z-steps-m {
+  padding: 10px;
+  gap: 0;
+}
+
+.z-steps-m ol {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.z-steps-m .z-step {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+}
+
+.z-steps-m .z-step-num {
+  display: none;
+}
+
+.z-steps-m .z-step::before {
+  content: '';
+  height: 5px;
+  border-radius: 3px;
+  background: var(--z-border);
+}
+
+.z-steps-m .z-step.is-done::before {
+  background: var(--z-ink);
+}
+
+.z-steps-m .z-step.is-current::before {
+  background: var(--z-marker-deep);
+}
+
+.z-steps-m .z-step.is-warn::before {
+  background: var(--z-warning);
+}
+
+.z-steps-m .z-step.is-error::before {
+  background: var(--z-danger);
+}
+
+.z-steps-m .z-step-label b {
+  font-size: 13px;
+}
+
+.z-steps-m .z-step-label span {
+  font-size: 12px;
+  white-space: normal;
+  line-height: 1.3;
+}
+
+.z-steps-m .z-step-line {
+  display: none;
+}
+
+/* --- строки состояния под шагами ---------------------------------------------------------------- */
+
+/* Значок слева, текст переносится под себя, а не под значок: на телефоне строка в две-три строки. */
+.z-status-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--z-text-2);
+}
+
+.z-status-line > .anticon {
+  flex: none;
+  margin-top: 4px;
+}
+
+.z-status-line .anticon-check-circle {
+  color: var(--z-success);
+}
+
+/* --- шаг «Анализ» ------------------------------------------------------------------------------- */
+
+.z-analysis {
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.z-stage {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.z-stage-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--z-border-strong);
+  color: var(--z-text-2);
+  font-size: 13px;
+}
+
+.z-stage.is-done .z-stage-icon {
+  background: var(--z-ink);
+  border-color: var(--z-ink);
+  color: #fff;
+}
+
+.z-stage.is-current .z-stage-icon {
+  border-color: var(--z-ink);
+  color: var(--z-ink);
+}
+
+.z-stage b {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.z-stage span {
+  color: var(--z-text-2);
+}
+
+.z-stage.is-todo b {
+  color: var(--z-text-2);
+  font-weight: 500;
+}
+
+.z-analysis-note {
+  margin: 0;
+  color: var(--z-text-2);
+}
+
+/* --- шаг «Риски» -------------------------------------------------------------------------------- */
+
+.z-work {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.z-work-single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.z-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.z-verdict {
+  display: flex;
+  gap: 14px;
+  padding: 16px 20px;
+}
+
+.z-verdict-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--z-danger-soft);
+  color: var(--z-danger);
+  font-size: 16px;
+}
+
+.z-verdict.is-ok .z-verdict-icon {
+  background: var(--z-success-soft);
+  color: var(--z-success);
+}
+
+.z-verdict-title {
+  margin: 2px 0 6px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--z-danger);
+}
+
+.z-verdict.is-ok .z-verdict-title {
+  color: var(--z-success);
+}
+
+.z-verdict-text {
+  margin: 0 0 8px;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.z-verdict-conf {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--z-text-3);
+}
+
+.z-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.z-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--z-surface-2);
+  border: 1px solid var(--z-border);
+  font-size: 13px;
+}
+
+.z-tools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Карточка риска: свёрнутая — одна строка с решением, развёрнутая — всё о риске и наша редакция. */
+.z-risk {
+  background: var(--z-surface);
+  border: 1px solid var(--z-border);
+  border-radius: 14px;
+}
+
+.z-risk.is-open {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.z-risk.is-active {
+  border-color: var(--z-ink);
+  box-shadow: 0 0 0 1px var(--z-ink);
+}
+
+.z-risk-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 14px;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.z-risk-row:hover {
+  background: var(--z-surface-2);
+}
+
+.z-decision-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.z-decision-icon.is-in {
+  background: var(--z-ink);
+  color: #fff;
+}
+
+.z-decision-icon.is-out {
+  background: #efebe4;
+  color: var(--z-text-2);
+}
+
+.z-risk-name {
+  flex: 1;
+  min-width: 0;
+}
+
+.z-risk-name b {
+  font-weight: 600;
+}
+
+.z-risk-name span {
+  display: block;
+  font-size: 13px;
+  color: var(--z-text-2);
+}
+
+.z-risk-state {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.z-risk-state.is-out {
+  color: var(--z-text-2);
+  font-weight: 500;
+}
+
+.z-risk-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.z-pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.z-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 9px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.z-pill.is-stop {
+  background: var(--z-danger);
+  color: #fff;
+}
+
+.z-pill.is-high {
+  background: var(--z-danger-soft);
+  color: var(--z-danger);
+}
+
+.z-pill.is-medium {
+  background: var(--z-warning-soft);
+  color: var(--z-warning);
+}
+
+.z-pill.is-low,
+.z-pill.is-neutral {
+  background: #efebe4;
+  color: var(--z-text-2);
+}
+
+.z-pill-note {
+  font-size: 13px;
+  color: var(--z-text-3);
+}
+
+.z-risk-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.z-risk-text {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.z-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.z-quote {
+  margin: 0;
+  padding: 10px 12px;
+  min-height: 112px;
+  border: 1px solid var(--z-border);
+  border-radius: 8px;
+  background: var(--z-surface-2);
+  color: var(--z-text-2);
+  font-family: var(--z-font-doc);
+  font-size: 15px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.z-wording.ant-input {
+  font-family: var(--z-font-doc);
+  font-size: 15px;
+  line-height: 1.5;
+  min-height: 112px;
+}
+
+.z-warn-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--z-warning);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.z-decision {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--z-border);
+}
+
+.z-decision-note {
+  color: var(--z-text-2);
+  font-size: 13px;
+}
+
+/* Решение: выбранное — чёрное, второе — белое. */
+.z-choice.ant-segmented {
+  padding: 0;
+  border: 1px solid var(--z-ink);
+  border-radius: 10px;
+  background: var(--z-surface);
+}
+
+.z-choice .ant-segmented-item {
+  border-radius: 9px;
+  font-weight: 600;
+  color: var(--z-text);
+}
+
+.z-choice .ant-segmented-item-selected {
+  background: var(--z-ink);
+  color: #fff;
+  box-shadow: none;
+}
+
+.z-choice .ant-segmented-thumb {
+  background: var(--z-ink);
+}
+
+.z-choice .ant-segmented-item-label {
+  min-height: 36px;
+  line-height: 36px;
+  padding: 0 16px;
+}
+
+/* Справка по договору: плитки с числом. */
+.z-ref {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.z-ref-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  border: 1px solid var(--z-border);
+  border-radius: 10px;
+  background: var(--z-surface);
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.z-ref-tile:hover {
+  border-color: var(--z-border-strong);
+}
+
+.z-ref-tile b {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.z-ref-tile span {
+  font-size: 13px;
+  color: var(--z-text-2);
+}
+
+/* Текст договора справа: колонка остаётся на экране, пока менеджер листает риски. */
+.z-work > aside {
+  position: sticky;
+  top: 16px;
+}
+
+.z-contract {
+  overflow: hidden;
+}
+
+.z-contract-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--z-border);
+}
+
+.z-contract-head b {
+  font-size: 15px;
+}
+
+.z-contract-head span {
+  font-size: 13px;
+  color: var(--z-text-2);
+}
+
+.z-text {
+  overflow-y: auto;
+  position: relative;
+  padding: 10px 12px 16px;
+  font-family: var(--z-font-doc);
+}
+
+.z-block {
+  margin: 0 0 2px;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.z-block.is-heading {
+  font-weight: 700;
+  padding-top: 12px;
+}
+
+.z-block.is-risk {
+  background: var(--z-marker-soft);
+}
+
+.z-block.is-marked {
+  background: var(--z-marker);
+}
+
+.z-page-mark {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 8px 6px;
+  font-family: var(--z-font-ui);
+  font-size: 12px;
+  color: var(--z-text-3);
+}
+
+.z-page-mark::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--z-border);
+}
+
+/* --- шаг «Протокол» ----------------------------------------------------------------------------- */
+
+.z-proto {
+  display: grid;
+  grid-template-columns: minmax(0, 8fr) minmax(300px, 4fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.z-proto-single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.z-preview {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.z-preview-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+}
+
+.z-preview-head b {
+  font-size: 16px;
+}
+
+.z-preview-head span {
+  color: var(--z-text-2);
+  font-size: 13px;
+}
+
+.z-sheet {
+  background: #fff;
+  border: 1px solid var(--z-border);
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(31, 28, 23, 0.06);
+  padding: 32px 36px 28px;
+  font-family: var(--z-font-doc);
+  color: #111;
+  overflow-x: auto;
+}
+
+.z-sheet-title {
+  margin: 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.z-sheet-sub {
+  margin: 2px 0 14px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.z-sheet-place {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 12px;
+  font-size: 13px;
+}
+
+.z-sheet-preamble {
+  margin: 0 0 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: justify;
+  text-indent: 28px;
+}
+
+.z-sheet-rest {
+  margin: 12px 0 0;
+  font-family: var(--z-font-ui);
+  font-size: 13px;
+  color: var(--z-text-3);
+}
+
+table.z-ptable {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.z-ptable th {
+  background: #d9e2f3;
+  border: 1px solid #333;
+  padding: 6px;
+  font-weight: 700;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.z-ptable td {
+  border: 1px solid #333;
+  padding: 6px;
+  vertical-align: top;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.z-ptable td.is-c {
+  text-align: center;
+  font-weight: 700;
+}
+
+.z-ptable tbody tr {
+  cursor: pointer;
+}
+
+.z-ptable tbody tr:hover td {
+  background: #fffdf2;
+}
+
+.z-ptable tbody tr.is-selected td {
+  background: #fff8db;
+}
+
+.z-ptable td.is-empty {
+  text-align: center;
+  font-family: var(--z-font-ui);
+  color: var(--z-text-2);
+  cursor: default;
+  padding: 16px;
+}
+
+.z-rownum {
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 700;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* Действия с выбранной строкой: внизу экрана, пока таблица длиннее окна, — рядом со строкой, а не под ней. */
+.z-rowbar {
+  position: sticky;
+  bottom: 16px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px 6px 6px 14px;
+  border: 1px solid #eadfb8;
+  border-radius: 10px;
+  background: #fffbea;
+  box-shadow: 0 6px 20px rgba(31, 28, 23, 0.12);
+}
+
+.z-rowbar > span {
+  margin-right: auto;
+  font-weight: 600;
+}
+
+.z-proto-below {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.z-out-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  border: 1px dashed var(--z-border-strong);
+  border-radius: 10px;
+}
+
+.z-out-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.z-out-item small {
+  display: block;
+  color: var(--z-text-2);
+  font-size: 13px;
+}
+
+/* Панель выпуска справа. */
+.z-panel {
+  position: sticky;
+  top: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.z-panel-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.z-switch-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.z-switch-row small {
+  display: block;
+  color: var(--z-text-2);
+  font-size: 13px;
+}
+
+.z-save {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 13px;
+  color: var(--z-text-2);
+}
+
+.z-save.is-saved .anticon {
+  color: var(--z-success);
+}
+
+.z-save.is-error {
+  color: var(--z-danger);
+}
+
+.z-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.z-field {
+  min-width: 0;
+}
+
+.z-field-wide {
+  grid-column: 1 / -1;
+}
+
+/* Поля на телефоне — в одну колонку. */
+.z-content-m .z-fields,
+.z-content-m .z-pair {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.z-content-m .z-risk.is-open {
+  padding: 14px;
+}
+
+.z-content-m .z-risk-title {
+  font-size: 17px;
+}
+
+/* Решение на телефоне — во всю ширину карточки, подписи не обрезаются. */
+.z-content-m .z-decision {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.z-content-m .z-choice.ant-segmented {
+  width: 100%;
+}
+
+.z-content-m .z-choice .ant-segmented-item {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.z-content-m .z-choice .ant-segmented-item-label {
+  padding: 0 8px;
+}
+
+.z-content-m .z-sheet {
+  padding: 18px 14px;
+}
+
+/* В узкой колонке выравнивание по ширине растягивает пробелы между словами. */
+.z-content-m .z-sheet-preamble {
+  text-align: left;
+}
+
+/* Строки протокола на телефоне — карточками, а не таблицей в пять колонок. */
+.z-prow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--z-border);
+  border-radius: 10px;
+  background: #fff;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.z-prow b {
+  font-family: var(--z-font-ui);
+  font-weight: 600;
+}
+
+.z-prow .is-buyer {
+  color: var(--z-text-2);
+}
+
+.z-prow span {
+  font-family: var(--z-font-doc);
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}

@@ -1,0 +1,6 @@
+-r requirements.txt
+# TestClient в Starlette 1.x работает через httpx2; сам httpx2 закреплён в requirements.txt.
+pytest==9.1.1
+ruff==0.17.1
+# Создание тестовых PDF в тестах чтения документов.
+reportlab==5.0.1

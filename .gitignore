@@ -1,0 +1,45 @@
+# Настоящие договоры, реквизиты, подпись и печать — только локально
+/DOCS/
+/contracts/
+
+# Локальные настройки и секреты
+.env
+.env.*
+!.env.example
+
+# Данные приложения (временные файлы проверок, локальная база для разработки)
+/data/
+backend/data/
+
+# Резервные копии (deploy/scripts/backup.py): в них реквизиты, подпись и печать организации
+/backups/
+*.dump
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+*.egg-info/
+
+# Node
+node_modules/
+frontend/dist/
+*.tsbuildinfo
+
+# Редакторы и ОС
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Служебные файлы Claude Code (launch.json содержит пути конкретной машины)
+.claude/settings.local.json
+.claude/launch.json

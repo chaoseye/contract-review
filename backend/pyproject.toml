@@ -1,0 +1,22 @@
+[project]
+name = "contract-review-backend"
+version = "0.1.0"
+description = "contract-review: анализ договоров и протоколы разногласий — сервер"
+requires-python = ">=3.11"
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+extend-exclude = ["migrations/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "SIM", "RUF"]
+# RUF001–RUF003 считают кириллицу «похожей на латиницу» — для русского текста это шум.
+ignore = ["RUF001", "RUF002", "RUF003"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S105", "S106"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

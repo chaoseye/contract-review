@@ -1,0 +1,268 @@
+/* Список проверок (ChecksPage) и окно загрузки (UploadModal). */
+
+.z-list {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.z-content-m .z-list {
+  gap: 14px;
+}
+
+/* Зона загрузки — главное действие страницы. */
+.z-drop.ant-upload-wrapper .ant-upload-drag {
+  border: 2px dashed var(--z-border-strong);
+  border-radius: 14px;
+  background: var(--z-surface);
+}
+
+.z-drop.ant-upload-wrapper .ant-upload-drag:hover {
+  border-color: var(--z-ink);
+}
+
+.z-drop.ant-upload-wrapper .ant-upload-drag .ant-upload-btn {
+  padding: 22px 26px;
+}
+
+.z-content-m .z-drop.ant-upload-wrapper .ant-upload-drag .ant-upload-btn {
+  padding: 14px 16px;
+}
+
+.z-drop-body {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  text-align: left;
+}
+
+.z-drop-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--z-marker);
+  color: var(--z-ink);
+  font-size: 22px;
+}
+
+.z-content-m .z-drop-icon {
+  width: 44px;
+  height: 44px;
+  font-size: 19px;
+}
+
+.z-drop-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.z-drop-text b {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.z-drop-text span {
+  color: var(--z-text-2);
+}
+
+.z-drop-note {
+  margin-left: auto;
+  max-width: 230px;
+  color: var(--z-text-2);
+  font-size: 13px;
+  text-align: right;
+}
+
+.z-empty {
+  margin: 0;
+  color: var(--z-text-2);
+}
+
+.z-list-sub {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 4px 0 -8px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.z-list-sub span {
+  color: var(--z-text-2);
+  font-weight: 500;
+}
+
+.z-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.z-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: center;
+  padding: 14px 16px 14px 18px;
+  background: var(--z-surface);
+  border: 1px solid var(--z-border);
+  border-radius: 14px;
+}
+
+.z-row-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.z-row-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--z-text);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.z-row-title:hover {
+  text-decoration: underline;
+}
+
+.z-row-sub {
+  font-size: 13px;
+  color: var(--z-text-2);
+  overflow-wrap: anywhere;
+}
+
+.z-row-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.z-bars {
+  display: flex;
+  gap: 4px;
+}
+
+.z-bars span {
+  width: 40px;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--z-border);
+}
+
+.z-bars .is-ok {
+  background: var(--z-ink);
+}
+
+.z-bars .is-cur {
+  background: var(--z-marker-deep);
+}
+
+.z-bars .is-warn {
+  background: var(--z-warning);
+}
+
+.z-bars .is-err {
+  background: var(--z-danger);
+}
+
+.z-stage-text {
+  font-size: 13px;
+  color: var(--z-text-2);
+  overflow-wrap: anywhere;
+}
+
+.z-stage-text b {
+  color: var(--z-text);
+  font-weight: 600;
+}
+
+.z-stage-text.is-warn b {
+  color: var(--z-warning);
+}
+
+.z-stage-text.is-err b {
+  color: var(--z-danger);
+}
+
+.z-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.z-left {
+  font-size: 13px;
+  color: var(--z-text-2);
+  white-space: nowrap;
+}
+
+.z-left.is-soon {
+  color: var(--z-warning);
+  font-weight: 600;
+}
+
+/* Телефон: строка складывается в столбик, действия — внизу карточки. */
+.z-content-m .z-row {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  padding: 14px;
+}
+
+.z-content-m .z-row-actions {
+  justify-content: space-between;
+}
+
+.z-content-m .z-row-actions .z-left {
+  margin-right: auto;
+}
+
+/* Выбранный файл в окне загрузки. */
+.z-file {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--z-border-strong);
+  border-radius: 10px;
+  background: var(--z-surface-2);
+}
+
+.z-file-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--z-marker);
+  color: var(--z-ink);
+  font-size: 18px;
+}
+
+.z-file-name {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.z-file-name b {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.z-file-name span {
+  font-size: 13px;
+  color: var(--z-text-2);
+}

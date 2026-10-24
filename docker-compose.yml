@@ -1,0 +1,108 @@
+# contract-review: запуск всей системы.
+#   локально:        docker compose up -d                      → http://localhost:8080
+#   сервер с HTTPS:  docker compose --profile server up -d     → https://<SITE_ADDRESS>
+# Настройки машины — в .env (образец: .env.example, создание: python deploy/scripts/init_env.py).
+
+name: contract-review
+
+x-app-build: &app-build
+  context: .
+  dockerfile: deploy/Dockerfile
+  args:
+    # Codex CLI в образе. INSTALL_CODEX=true в .env сохраняет его и после обновлений.
+    INSTALL_CODEX: ${INSTALL_CODEX:-false}
+
+x-app-env: &app-env
+  DATABASE_URL: postgresql+pg8000://contract_review:${POSTGRES_PASSWORD:?Задайте POSTGRES_PASSWORD в .env}@db:5432/contract_review
+  APP_SECRET_KEY: ${APP_SECRET_KEY:?Задайте APP_SECRET_KEY в .env}
+  ENCRYPTION_KEY: ${ENCRYPTION_KEY:-}
+  PUBLIC_URL: ${PUBLIC_URL:-http://localhost:8080}
+  INITIAL_ADMIN_LOGIN: ${INITIAL_ADMIN_LOGIN:-}
+  INITIAL_ADMIN_PASSWORD: ${INITIAL_ADMIN_PASSWORD:-}
+  SESSION_TTL_HOURS: ${SESSION_TTL_HOURS:-12}
+  CHECK_TTL_HOURS: ${CHECK_TTL_HOURS:-24}
+  MAX_UPLOAD_MB: ${MAX_UPLOAD_MB:-50}
+  WORKER_CONCURRENCY: ${WORKER_CONCURRENCY:-2}
+  LOG_LEVEL: ${LOG_LEVEL:-INFO}
+  API_DOCS: ${API_DOCS:-false}
+  # Адреса обратного прокси, которому uvicorn верит в X-Forwarded-For (профиль server: см. DEPLOYMENT.md).
+  FORWARDED_ALLOW_IPS: ${FORWARDED_ALLOW_IPS:-127.0.0.1}
+
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: contract_review
+      POSTGRES_USER: contract_review
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Задайте POSTGRES_PASSWORD в .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U contract_review -d contract_review"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  app:
+    build: *app-build
+    image: contract-review-app:local
+    restart: unless-stopped
+    command: ["app"]
+    environment: *app-env
+    volumes:
+      - appdata:/data
+    # Локальная модель (Ollama, vLLM) на этой же машине доступна как host.docker.internal и в Linux.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # По умолчанию порт открыт только на этой машине (127.0.0.1). Для доступа из локальной сети
+    # без Caddy задайте APP_BIND=0.0.0.0 в .env.
+    ports:
+      - "${APP_BIND:-127.0.0.1}:${APP_PORT:-8080}:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  worker:
+    build: *app-build
+    image: contract-review-app:local
+    restart: unless-stopped
+    command: ["worker"]
+    environment: *app-env
+    volumes:
+      - appdata:/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # Миграции применяет app; worker стартует, когда app готов.
+    depends_on:
+      app:
+        condition: service_healthy
+
+  caddy:
+    image: caddy:2-alpine
+    profiles: ["server"]
+    restart: unless-stopped
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:-localhost}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      app:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  appdata:
+  caddy_data:
+  caddy_config:

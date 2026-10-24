@@ -1,0 +1,102 @@
+/* Общие стили. Цвета и шрифты — переменные --z-* из theme.ts (applyCssVariables), тема Ant Design — там же. */
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  font-family: var(--z-font-ui);
+  color: var(--z-text);
+  background: var(--z-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Ссылки в тексте подчёркнуты: основной цвет — чёрный, без подчёркивания ссылку не отличить от текста. */
+a {
+  text-underline-offset: 3px;
+}
+
+/* Числа в таблицах и списках — одинаковой ширины. */
+.z-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Текст договора и протокола — шрифтом документа: видно, где бумага, а где интерфейс. */
+.z-doc {
+  font-family: var(--z-font-doc);
+}
+
+/* Кольцо фокуса — чёрное, 2 px, сразу, без анимации: видно на любом фоне. */
+.ant-btn:focus-visible,
+.ant-segmented-item:has(:focus-visible),
+.ant-tabs-tab-btn:focus-visible,
+.ant-switch:focus-visible,
+.ant-checkbox-wrapper:has(:focus-visible) .ant-checkbox-inner,
+.ant-menu-item:focus-visible,
+a:focus-visible,
+button:focus-visible,
+[tabindex='0']:focus-visible {
+  outline: 2px solid var(--z-ink) !important;
+  outline-offset: 2px !important;
+  transition: none !important;
+}
+
+/* Нажатие кнопки — короткое сжатие вместо «волны»: интерфейс услышал (Эмиль Ковальски). */
+.ant-btn:not(:disabled):active {
+  transform: scale(0.98);
+}
+
+/* Пункт договора, к которому перешли: короткая вспышка маркера, чтобы глаз нашёл место. */
+@keyframes z-flash {
+  0% {
+    box-shadow: 0 0 0 4px var(--z-marker);
+    background-color: var(--z-marker);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 226, 122, 0);
+  }
+}
+
+.z-flash {
+  animation: z-flash 0.6s ease-out 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .z-flash {
+    animation: none;
+  }
+
+  .ant-btn:not(:disabled):active {
+    transform: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Скелет страницы, пока грузится раздел: серые плашки в размер, без мерцания. */
+.z-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px 32px;
+}
+
+.z-skeleton span {
+  display: block;
+  border-radius: 10px;
+  background: #ece8e1;
+}
+
+/* Скрыто глазом, но читается программами чтения с экрана. */
+.z-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
